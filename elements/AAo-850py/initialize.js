@@ -38,7 +38,7 @@ function(instance, context) {
 	//##############################################################################
     
 	//Takes two PDFs and merges them together
-    async function mergeTwoPDFs(urlA, urlB, fileName, inputAsBase64, outputAsBase64) {
+    async function mergeTwoPDFs(urlA, urlB, fileName, inputAsBase64, outputAsBase64, directDownload, doNotUpload) {
     	
 		const firstDonorPdfBytes;
 		const secondDonorPdfBytes;
@@ -72,26 +72,29 @@ function(instance, context) {
     	for(var j = 0; j < filledPageArray2.length; j++) {
         	filledPageArray2[j] = j;
     	}
-    	
     	const [secondDonorPage] = await pdfDoc.copyPages(secondDonorPdfDoc, filledPageArray2);
-
     	for(var k = 0; k < filledPageArray1.length; k++) {
             const [firstDonorPage] = await pdfDoc.copyPages(firstDonorPdfDoc, [k]);
             //console.log("Doc 1, page " + k);
         	pdfDoc.addPage(firstDonorPage);
     	}
-
     	for(var l = 0; l < filledPageArray2.length; l++) {
             const [secondDonorPage] = await pdfDoc.copyPages(secondDonorPdfDoc, [l]);
 			//console.log("Doc 2, page " + l);
         	pdfDoc.addPage(secondDonorPage);
     	}
     	const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-    	//console.log(pdfDataUri);
-  
   		// strip off the first part to the first comma "data:image/png;base64,iVBORw0K..."
-    	var data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
-    	context.uploadContent(fileName + ".pdf", data_pdf, instance.data.uploadContentCallback);
+    	let base64ContentArray = pdfDataUri.split(",");
+		let mimeType = base64ContentArray[0].match(/[^:\s*]\w+\/[\w-+\d.]+(?=[;| ])/)[0]
+		var data_pdf = base64ContentArray[1]
+
+		if(!doNotUpload) {
+    		context.uploadContent(fileName + ".pdf", data_pdf, instance.data.uploadContentCallback);
+		}
+		if(directDownload) {
+			download(data_pdf, fileName, mimeType)
+		}
 	}
 	instance.data.mergeTwoPDFs = mergeTwoPDFs;
     
