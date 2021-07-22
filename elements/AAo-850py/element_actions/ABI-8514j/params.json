@@ -1,0 +1,35 @@
+{
+    "caption": "Merge Two PDFs using",
+    "doc": "Merge the entirety of two PDFs together.",
+    "fields": {
+        "ABJ": {
+            "caption": "Merge two PDFs by supplying their URLs.",
+            "editor": "Label",
+            "name": "info",
+            "rank": 0
+        },
+        "ABK": {
+            "caption": "PDF 1",
+            "editor": "DynamicValue",
+            "name": "pdf_1",
+            "rank": 1,
+            "value": "text"
+        },
+        "ABL": {
+            "caption": "PDF 2",
+            "editor": "DynamicValue",
+            "name": "pdf_2",
+            "rank": 2,
+            "value": "text"
+        },
+        "ABP": {
+            "caption": "Filename",
+            "default_val": "file",
+            "doc": "Name to give your file WITHOUT THE .PDF EXTENSION.",
+            "editor": "DynamicValue",
+            "name": "filename",
+            "rank": 3,
+            "value": "text"
+        }
+    }
+}

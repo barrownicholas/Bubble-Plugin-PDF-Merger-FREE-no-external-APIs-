@@ -1,0 +1,45 @@
+{
+    "caption": "Merge All PDFs using",
+    "doc": "Merge the entirety of a list of PDFs together.",
+    "fields": {
+        "ABN": {
+            "caption": "Merge all PDFs by supplying a list of their URLs. Use Bubble's :filtered and :sorted to arrange the list into your desired order.",
+            "editor": "Label",
+            "name": "info",
+            "rank": 0
+        },
+        "ABO": {
+            "caption": "PDF List",
+            "editor": "DynamicValue",
+            "is_list": true,
+            "name": "pdf_list",
+            "rank": 1,
+            "value": "file"
+        },
+        "ABQ": {
+            "caption": "Filename",
+            "default_val": "file",
+            "doc": "Name to give your file WITHOUT THE .PDF EXTENSION.",
+            "editor": "DynamicValue",
+            "name": "filename",
+            "rank": 2,
+            "value": "text"
+        },
+        "ABt": {
+            "caption": "Use base64 Strings",
+            "default_val": false,
+            "doc": "Use this checkbox if you want to pass base64 strings (instead of file URLs) to the PDF Merger; this option allows for direct-download of files without needing to save to the database.",
+            "editor": "Checkbox",
+            "name": "use_base64_strings",
+            "rank": 3
+        },
+        "ABu": {
+            "caption": "Output as base64 String",
+            "default_val": false,
+            "doc": "Use this checkbox if you want the PDF Merger to output the final, merged file as a base64 string (instead of a file URL that saves to the database); this option allows for direct-download of files without needing to save to the database.",
+            "editor": "Checkbox",
+            "name": "output_as_base64_string",
+            "rank": 4
+        }
+    }
+}

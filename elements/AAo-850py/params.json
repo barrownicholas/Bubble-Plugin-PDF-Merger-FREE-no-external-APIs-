@@ -1,0 +1,39 @@
+{
+    "add_is_visible": true,
+    "category": "visual elements",
+    "default_dim": {
+        "height": 200,
+        "width": 400
+    },
+    "display": "PDF Document Merger",
+    "events": {
+        "AAq": {
+            "caption": "has finished merging",
+            "name": "is_generated"
+        }
+    },
+    "fields": {
+        "AAs": {
+            "caption": "To start merging PDFs, run the \"Merge PDFs\" action in a workflow against this element. ",
+            "editor": "Label",
+            "name": "info",
+            "rank": 0
+        }
+    },
+    "icon": "ion-document-text",
+    "property_applications": {
+        "Background": true,
+        "MinWidth": true,
+        "resizable": true
+    },
+    "states": {
+        "AAp": {
+            "caption": "url",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n//Not needed\n}"
+            },
+            "name": "file_url",
+            "value": "text"
+        }
+    }
+}

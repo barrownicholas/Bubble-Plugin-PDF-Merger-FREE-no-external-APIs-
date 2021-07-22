@@ -1,0 +1,41 @@
+{
+    "caption": "Merge One PDF and a List of PDFs using",
+    "doc": "Merge one PDF and a list of PDFs together.",
+    "fields": {
+        "ABS": {
+            "caption": "Single PDF",
+            "editor": "DynamicValue",
+            "name": "single_pdf",
+            "rank": 2,
+            "value": "file"
+        },
+        "ABT": {
+            "caption": "This action allows you to merge a single PDF with a list of PDFs. The single PDF will be placed before the list of PDFs.",
+            "editor": "Label",
+            "name": "info",
+            "rank": 0
+        },
+        "ABU": {
+            "caption": "List of PDFs",
+            "editor": "DynamicValue",
+            "is_list": true,
+            "name": "list_of_pdfs",
+            "rank": 3,
+            "value": "file"
+        },
+        "ABV": {
+            "caption": "This is designed to be used when you need to place a single PDF (such as a cover-sheet or static PDF) before a list of PDFs.",
+            "editor": "Label",
+            "name": "info2",
+            "rank": 1
+        },
+        "ABW": {
+            "caption": "Filename",
+            "doc": "Name to give your file WITHOUT THE .PDF EXTENSION.",
+            "editor": "DynamicValue",
+            "name": "filename",
+            "rank": 4,
+            "value": "text"
+        }
+    }
+}
