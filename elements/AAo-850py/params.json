@@ -30,7 +30,7 @@
         "AAp": {
             "caption": "url",
             "initialization_code": {
-                "fn": "function(properties, context) {\n//Not needed\n}"
+                "fn": "function(properties, context) {\n//Leave empty\n}"
             },
             "name": "file_url",
             "value": "text"
@@ -39,7 +39,7 @@
             "caption": "base64 output",
             "doc": "",
             "initialization_code": {
-                "fn": "function(properties, context) {\n\n\n\n}"
+                "fn": "function(properties, context) {\n//Leave empty\n}"
             },
             "name": "base64_output",
             "value": "text"

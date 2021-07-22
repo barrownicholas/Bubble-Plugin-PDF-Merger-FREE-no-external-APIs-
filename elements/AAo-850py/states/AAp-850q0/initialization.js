@@ -1,3 +1,3 @@
 function(properties, context) {
-//Not needed
+//Leave empty
 }
