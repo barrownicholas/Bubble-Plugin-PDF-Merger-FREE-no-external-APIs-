@@ -11,9 +11,8 @@ function(instance, properties, context) {
         a = "https://stormy-bastion-35201.herokuapp.com/https:" + properties.pdf_1;
         b = "https://stormy-bastion-35201.herokuapp.com/https:" + properties.pdf_2;
     }
-    const outputAsBase64 = properties.output_as_base64_string;
     const directDownload = properties.direct_download;
     const doNotUpload = properties.do_not_upload_to_database;
-    instance.data.mergeTwoPDFs(a,b,fName,inputAsBase64, outputAsBase64, directDownload, doNotUpload);
+    instance.data.mergeTwoPDFs(a,b,fName,inputAsBase64, directDownload, doNotUpload);
     //Adds the CORS Proxy in the function itself (if needed?)
 }

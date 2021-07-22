@@ -39,21 +39,13 @@
             "name": "use_base64_strings",
             "rank": 4
         },
-        "ABw": {
-            "caption": "Output as base64 String",
-            "default_val": false,
-            "doc": "Use this checkbox if you want the PDF Merger to output the final, merged file as a base64 string (instead of a file URL that saves to the database); this option allows for direct-download of files without needing to save to the database.",
-            "editor": "Checkbox",
-            "name": "output_as_base64_string",
-            "rank": 5
-        },
         "ABx": {
             "caption": "Direct Download",
             "default_val": false,
             "doc": "Use this checkbox to trigger a download of the merged file once the merging has completed.",
             "editor": "Checkbox",
             "name": "direct_download",
-            "rank": 6
+            "rank": 5
         },
         "ABy": {
             "caption": "Do Not Upload to Database",
@@ -61,7 +53,7 @@
             "doc": "Use this checkbox to stop the PDF Merger from uploading the file to your database.",
             "editor": "Checkbox",
             "name": "do_not_upload_to_database",
-            "rank": 7
+            "rank": 6
         }
     }
 }

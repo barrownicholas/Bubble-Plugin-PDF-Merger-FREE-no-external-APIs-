@@ -38,7 +38,7 @@ function(instance, context) {
     //##############################################################################
 
     //Takes two PDFs and merges them together
-    async function mergeTwoPDFs(urlA, urlB, fileName, inputAsBase64, outputAsBase64, directDownload, doNotUpload) {
+    async function mergeTwoPDFs(urlA, urlB, fileName, inputAsBase64, directDownload, doNotUpload) {
 
         var firstDonorPdfBytes = null;
         var secondDonorPdfBytes = null;
@@ -88,7 +88,7 @@ function(instance, context) {
         var base64ContentArray = pdfDataUri.split(",");
         var mimeType = base64ContentArray[0].match(/[^:\s*]\w+\/[\w-+\d.]+(?=[;| ])/)[0]
         var data_pdf = base64ContentArray[1]
-        console.log(data_pdf)
+        //console.log(data_pdf)
 
         instance.publishState('base64_output', data_pdf);
         instance.triggerEvent('is_generated', function(err) {});
@@ -107,19 +107,34 @@ function(instance, context) {
     }
     instance.data.mergeTwoPDFs = mergeTwoPDFs;
 
-    async function mergeAllPDFs(urls, fileName) {
+    async function mergeAllPDFs(urls, fileName, inputAsBase64, directDownload, doNotUpload) {
 
         const pdfDoc = await PDFLib.PDFDocument.create();
         const numDocs = urls.length;
 
-        for(var i = 0; i < numDocs; i++) {
-            const donorPdfBytes = await fetch(urls[i]).then(res => res.arrayBuffer());
-            const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes);
-            const docLength = donorPdfDoc.getPageCount();
-            for(var k = 0; k < docLength; k++) {
-                const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
-                //console.log("Doc " + i+ ", page " + k);
-                pdfDoc.addPage(donorPage);
+        if(inputAsBase64) {
+            console.log(urls)
+            for(var cur = 0; cur < numDocs; cur++) {
+                const donorPdfBytes = instance.data.base64ToArrayBuffer(urls[cur]);
+                const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes);
+                const docLength = donorPdfDoc.getPageCount();
+                for(var k = 0; k < docLength; k++) {
+                    const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
+                    //console.log("Doc " + i+ ", page " + k);
+                    pdfDoc.addPage(donorPage);
+                }
+            }
+        }
+        else {
+            for(var i = 0; i < numDocs; i++) {
+                const donorPdfBytes = await fetch(urls[i]).then(res => res.arrayBuffer());
+                const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes);
+                const docLength = donorPdfDoc.getPageCount();
+                for(var k = 0; k < docLength; k++) {
+                    const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
+                    //console.log("Doc " + i+ ", page " + k);
+                    pdfDoc.addPage(donorPage);
+                }
             }
         }
 
@@ -129,32 +144,23 @@ function(instance, context) {
         // strip off the first part to the first comma "data:image/png;base64,iVBORw0K..."
         var data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
         context.uploadContent(fileName + ".pdf", data_pdf, instance.data.uploadContentCallback);
+        
+        var base64ContentArray = pdfDataUri.split(",");
+        var mimeType = base64ContentArray[0].match(/[^:\s*]\w+\/[\w-+\d.]+(?=[;| ])/)[0]
+        var data_pdf = base64ContentArray[1]
+        //console.log(data_pdf)
+
+        instance.publishState('base64_output', data_pdf);
+        instance.triggerEvent('is_generated', function(err) {});
+        
+        if(directDownload) {
+            download(pdfDataUri, fileName, mimeType);
+        }
+        if(!doNotUpload) {
+            context.uploadContent(fileName + ".pdf", data_pdf, instance.data.uploadContentCallback);
+        }
     }
     instance.data.mergeAllPDFs = mergeAllPDFs;
-
-    async function mergeAllPDFsDirect(strings, fileName) {
-        const pdfDoc = await PDFLib.PDFDocument.create();
-        const numDocs = strings.length;
-
-        for(var i = 0; i < numDocs; i++) {
-            const donorPdfBytes = instance.data._base64ToArrayBuffer(strings[i]);
-            const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes);
-            const docLength = donorPdfDoc.getPageCount();
-            for(var k = 0; k < docLength; k++) {
-                const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
-                console.log("PDF Merger: Added Doc " + i+ ", page " + k);
-                pdfDoc.addPage(donorPage);
-            }
-        }
-
-        const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-        //console.log(pdfDataUri);
-
-        // strip off the first part to the first comma "data:image/png;base64,iVBORw0K..."
-        var data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
-        context.uploadContent(fileName + ".pdf", data_pdf, instance.data.uploadContentCallback);
-    }
-    instance.data.mergeAllPDFsDirect = mergeAllPDFs;
 
     //##############################################################################
     //##############################################################################

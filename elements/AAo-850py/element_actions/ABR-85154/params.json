@@ -36,6 +36,30 @@
             "name": "filename",
             "rank": 4,
             "value": "text"
+        },
+        "ACA": {
+            "caption": "Use base64 Strings",
+            "default_val": false,
+            "doc": "Use this checkbox if you want to pass base64 strings (instead of file URLs) to the PDF Merger; this option allows for direct-download of files without needing to save to the database.",
+            "editor": "Checkbox",
+            "name": "use_base64_strings",
+            "rank": 5
+        },
+        "ACC": {
+            "caption": "Direct Download",
+            "default_val": false,
+            "doc": "Use this checkbox to trigger a download of the merged file once the merging has completed.",
+            "editor": "Checkbox",
+            "name": "direct_download",
+            "rank": 6
+        },
+        "ACE": {
+            "caption": "Do Not Upload to Database",
+            "default_val": false,
+            "doc": "Use this checkbox to stop the PDF Merger from uploading the file to your database.",
+            "editor": "Checkbox",
+            "name": "do_not_upload_to_database",
+            "rank": 7
         }
     }
 }
