@@ -1,8 +1,10 @@
 function(instance, context) {
 
-	//Do my changes push?
-    
-    //Checks if the "https:" is included at the begining of a string since Bubble does not include it
+	//##############################################################################
+	//############################## HELPER FUNCTIONS ##############################
+	//##############################################################################
+
+	//Checks if the "https:" is included at the begining of a string since Bubble does not include it
     function checkURL (iUrl) {
         var firstFiveChars = iUrl.substring(0,6);
     	var returnMe;
@@ -15,43 +17,44 @@ function(instance, context) {
     	return returnMe;
 	}
     instance.data.checkURL = checkURL;
+
+	function base64ToArrayBuffer(base64) {
+		var binary_string = window.atob(base64);
+		var len = binary_string.length;
+		var bytes = new Uint8Array(len);
+		for (var i = 0; i < len; i++) {
+			bytes[i] = binary_string.charCodeAt(i);
+		}
+		return bytes.buffer;
+	}
+	instance.data.base64ToArrayBuffer = base64ToArrayBuffer;
+
+	//##############################################################################
+	//##############################################################################
+	//##############################################################################
+
+	//##############################################################################
+	//############################## MERGER FUNCTIONS ##############################
+	//##############################################################################
     
-    //The addPage method of the final doc automatically adds to the end
-    //So, create the final PDF doc and then use for-loop within a for-loop to loop through an individual page
-    //in each pdf
-	//async function copyPagesExample() {
-  		//const url1 = 'https://pdf-lib.js.org/assets/with_update_sections.pdf'
-  		//const url2 = 'https://pdf-lib.js.org/assets/with_large_page_count.pdf'
+	//Takes two PDFs and merges them together
+    async function mergeTwoPDFs(urlA, urlB, fileName, inputAsBase64, outputAsBase64) {
+    	
+		const firstDonorPdfBytes;
+		const secondDonorPdfBytes;
 
-  		//const firstDonorPdfBytes = await fetch(url1).then(res => res.arrayBuffer())
-  		//const secondDonorPdfBytes = await fetch(url2).then(res => res.arrayBuffer())
-
-  		//const firstDonorPdfDoc = await PDFLib.PDFDocument.load(firstDonorPdfBytes)
-  		//const secondDonorPdfDoc = await PDFLib.PDFDocument.load(secondDonorPdfBytes)
-
-  		//const pdfDoc = await PDFLib.PDFDocument.create();
-
-  		//const [firstDonorPage] = await pdfDoc.copyPages(firstDonorPdfDoc, [0])
-  		//const [secondDonorPage] = await pdfDoc.copyPages(secondDonorPdfDoc, [1,742])
-
-  		//pdfDoc.addPage(firstDonorPage)
-  		//pdfDoc.insertPage(0, secondDonorPage)
-        
-        //const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-        //console.log(pdfDataUri)
-        
-        // strip off the first part to the first comma "data:image/png;base64,iVBORw0K..."
-      	//var data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
-        //context.uploadContent("file.pdf", data_pdf, instance.data.uploadContentCallback);
-    //}
-    //instance.data.copyPagesExample = copyPagesExample;
-    
-    async function mergeTwoPDFs(urlA, urlB, fileName) {
-    	const url1 = urlA;
-    	const url2 = urlB;
-
-    	const firstDonorPdfBytes = await fetch(url1).then(res => res.arrayBuffer());
-    	const secondDonorPdfBytes = await fetch(url2).then(res => res.arrayBuffer());
+		//the IF uses URLs, the ELSE uses base64 strings -> both create arrayBuffer()'s
+		if(inputAsBase64) {
+			const url1 = urlA;
+    		const url2 = urlB;
+    		firstDonorPdfBytes = await fetch(url1).then(res => res.arrayBuffer());
+    		secondDonorPdfBytes = await fetch(url2).then(res => res.arrayBuffer());
+		}
+		else {
+			firstDonorPdfBytes = instance.data.base64ToArrayBuffer(urlA)
+			secondDonorPdfBytes = instance.data.base64ToArrayBuffer(urlB)
+		}
+		
 
     	const firstDonorPdfDoc = await PDFLib.PDFDocument.load(firstDonorPdfBytes);
     	const secondDonorPdfDoc = await PDFLib.PDFDocument.load(secondDonorPdfBytes);
@@ -69,7 +72,6 @@ function(instance, context) {
     	for(var j = 0; j < filledPageArray2.length; j++) {
         	filledPageArray2[j] = j;
     	}
-
     	
     	const [secondDonorPage] = await pdfDoc.copyPages(secondDonorPdfDoc, filledPageArray2);
 
@@ -118,17 +120,6 @@ function(instance, context) {
 	}
 	instance.data.mergeAllPDFs = mergeAllPDFs;
     
-    function _base64ToArrayBuffer(base64) {
-        var binary_string = window.atob(base64);
-        var len = binary_string.length;
-        var bytes = new Uint8Array(len);
-        for (var i = 0; i < len; i++) {
-            bytes[i] = binary_string.charCodeAt(i);
-        }
-        return bytes.buffer;
-    }
-    instance.data._base64ToArrayBuffer = _base64ToArrayBuffer;
-    
     async function mergeAllPDFsDirect(strings, fileName) {
         const pdfDoc = await PDFLib.PDFDocument.create();
         const numDocs = strings.length;
@@ -153,8 +144,12 @@ function(instance, context) {
 	}
 	instance.data.mergeAllPDFsDirect = mergeAllPDFs;
     
-    
-    
+    //##############################################################################
+	//##############################################################################
+	//##############################################################################
+
+
+    //Bubble's callback for uploading files
     function uploadContentCallback(err, url) {
     	if (url) {
       		instance.publishState('file_url', url);
