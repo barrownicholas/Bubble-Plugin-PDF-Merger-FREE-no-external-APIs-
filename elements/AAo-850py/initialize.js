@@ -1,4 +1,6 @@
 function(instance, context) {
+
+	//Do my changes push?
     
     //Checks if the "https:" is included at the begining of a string since Bubble does not include it
     function checkURL (iUrl) {
