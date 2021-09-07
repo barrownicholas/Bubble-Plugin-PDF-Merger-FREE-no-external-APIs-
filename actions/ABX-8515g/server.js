@@ -2,10 +2,10 @@ function(properties, context) {
     console.log("[PDF Merger] Initializing Object States")
     const PDFLib = require('pdf-lib');
     const fetch = require('node-fetch');
-    const url1 = properties.pdf_1;
-    const url2 = properties.pdf_2;
-    const filename = properties.filename;
-    const returner = '';
+    var url1 = properties.pdf_1;
+    var url2 = properties.pdf_2;
+    var filename = properties.filename;
+    var returner = '';
 
     // Check to make sure the 'http:' prefix is included since Bubble does not include it.
     if(url1.substring(0,5) != 'http:') {
