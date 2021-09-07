@@ -1,0 +1,6 @@
+{
+    "dependencies": {
+        "pdf-lib": "latest",
+        "node-fetch": "^2.0.0"
+    }
+}
