@@ -18,6 +18,15 @@
             "editor": "Label",
             "name": "info",
             "rank": 0
+        },
+        "ABX": {
+            "caption": "Ignore Encryption",
+            "default_val": false,
+            "doc": "PDF Merger will (by default) throw an error message if any or all PDFs have some form of encryption. However, you can set this value to \"True\" (by checking the box) to ignore any encryption. WARNING: this can cause breaking changes in the merged PDF and may not merge properly; it is best to remove any encryption locally before attempting to merge.",
+            "editor": "Checkbox",
+            "in_style": false,
+            "name": "ignore_encryption",
+            "rank": 1
         }
     },
     "icon": "ion-document-text",

@@ -1,3 +1,3 @@
 function(instance, properties) {
-//Not needed
+    instance.data.ignore_encryption = properties.ignore_encryption;
 }

@@ -1,4 +1,5 @@
 function(instance, properties, context) {
+    const ignore_encryption = instance.data.ignore_encryption;
     const fName = properties.filename;
     const firstPDF = properties.single_pdf;
     const numListPDFs = properties.list_of_pdfs.length();
@@ -15,5 +16,5 @@ function(instance, properties, context) {
     //console.log(newList);
     console.log(arrFiltered);
     
-    instance.data.mergeAllPDFs(arrFiltered, fName);
+    instance.data.mergeAllPDFs(arrFiltered, fName, ignore_encryption);
 }

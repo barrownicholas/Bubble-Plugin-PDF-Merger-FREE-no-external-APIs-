@@ -14,45 +14,16 @@ function(instance, context) {
 	}
     instance.data.checkURL = checkURL;
     
-    //The addPage method of the final doc automatically adds to the end
-    //So, create the final PDF doc and then use for-loop within a for-loop to loop through an individual page
-    //in each pdf
-	//async function copyPagesExample() {
-  		//const url1 = 'https://pdf-lib.js.org/assets/with_update_sections.pdf'
-  		//const url2 = 'https://pdf-lib.js.org/assets/with_large_page_count.pdf'
-
-  		//const firstDonorPdfBytes = await fetch(url1).then(res => res.arrayBuffer())
-  		//const secondDonorPdfBytes = await fetch(url2).then(res => res.arrayBuffer())
-
-  		//const firstDonorPdfDoc = await PDFLib.PDFDocument.load(firstDonorPdfBytes)
-  		//const secondDonorPdfDoc = await PDFLib.PDFDocument.load(secondDonorPdfBytes)
-
-  		//const pdfDoc = await PDFLib.PDFDocument.create();
-
-  		//const [firstDonorPage] = await pdfDoc.copyPages(firstDonorPdfDoc, [0])
-  		//const [secondDonorPage] = await pdfDoc.copyPages(secondDonorPdfDoc, [1,742])
-
-  		//pdfDoc.addPage(firstDonorPage)
-  		//pdfDoc.insertPage(0, secondDonorPage)
-        
-        //const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-        //console.log(pdfDataUri)
-        
-        // strip off the first part to the first comma "data:image/png;base64,iVBORw0K..."
-      	//var data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
-        //context.uploadContent("file.pdf", data_pdf, instance.data.uploadContentCallback);
-    //}
-    //instance.data.copyPagesExample = copyPagesExample;
     
-    async function mergeTwoPDFs(urlA, urlB, fileName) {
+    async function mergeTwoPDFs(urlA, urlB, fileName, ignore_encryption) {
     	const url1 = urlA;
     	const url2 = urlB;
 
     	const firstDonorPdfBytes = await fetch(url1).then(res => res.arrayBuffer());
     	const secondDonorPdfBytes = await fetch(url2).then(res => res.arrayBuffer());
 
-    	const firstDonorPdfDoc = await PDFLib.PDFDocument.load(firstDonorPdfBytes);
-    	const secondDonorPdfDoc = await PDFLib.PDFDocument.load(secondDonorPdfBytes);
+    	const firstDonorPdfDoc = await PDFLib.PDFDocument.load(firstDonorPdfBytes, {ignoreEncryption: ignore_encryption});
+    	const secondDonorPdfDoc = await PDFLib.PDFDocument.load(secondDonorPdfBytes, {ignoreEncryption: ignore_encryption});
 
     	const pdfDoc = await PDFLib.PDFDocument.create();
 
@@ -91,14 +62,15 @@ function(instance, context) {
 	}
 	instance.data.mergeTwoPDFs = mergeTwoPDFs;
     
-    async function mergeAllPDFs(urls, fileName) {
+    
+    async function mergeAllPDFs(urls, fileName, ignore_encryption) {
         
         const pdfDoc = await PDFLib.PDFDocument.create();
         const numDocs = urls.length;
         
         for(var i = 0; i < numDocs; i++) {
             const donorPdfBytes = await fetch(urls[i]).then(res => res.arrayBuffer());
-            const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes);
+            const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes, {ignoreEncryption: ignore_encryption});
             const docLength = donorPdfDoc.getPageCount();
             for(var k = 0; k < docLength; k++) {
             	const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
