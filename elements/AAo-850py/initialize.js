@@ -18,6 +18,8 @@ function(instance, context) {
     async function mergeTwoPDFs(urlA, urlB, fileName, ignore_encryption) {
     	const url1 = urlA;
     	const url2 = urlB;
+        
+        console.log("[PDF Merger] ignore_encryption: " + ignore_encryption);
 
     	const firstDonorPdfBytes = await fetch(url1).then(res => res.arrayBuffer());
     	const secondDonorPdfBytes = await fetch(url2).then(res => res.arrayBuffer());
@@ -64,6 +66,8 @@ function(instance, context) {
     
     
     async function mergeAllPDFs(urls, fileName, ignore_encryption) {
+        
+        console.log("[PDF Merger] ignore_encryption: " + ignore_encryption);
         
         const pdfDoc = await PDFLib.PDFDocument.create();
         const numDocs = urls.length;

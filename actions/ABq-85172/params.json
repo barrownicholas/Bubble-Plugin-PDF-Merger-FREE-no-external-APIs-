@@ -1,0 +1,63 @@
+{
+    "category": "plugins",
+    "display": "Backend Merge List of PDFs",
+    "fields": {
+        "ABl": {
+            "caption": "Base URL",
+            "doc": "Your website base url. It is advised to use Dynamic Data > \"Website home url\" option (so that this workflow action works in both live and test mode).",
+            "editor": "DynamicValue",
+            "name": "baseurl",
+            "rank": 0,
+            "value": "text"
+        },
+        "ABm": {
+            "caption": "Do Not Upload",
+            "default_val": false,
+            "doc": "Check this box to DISABLE uploading the Merged PDF to your file manager / database. This will cause only the Data URI to generate (allowing you to download/view without having to store the file). Not recommended, unless you are experienced with handling Base64 Data URIs. ",
+            "editor": "Checkbox",
+            "name": "do_not_upload",
+            "rank": 1
+        },
+        "ABn": {
+            "caption": "Merged File Name",
+            "default_val": "merged.pdf",
+            "doc": "What to name the Merged File, including the \".pdf\" extension.",
+            "editor": "DynamicValue",
+            "name": "merged_file_name",
+            "rank": 2,
+            "value": "text"
+        },
+        "ABr": {
+            "caption": "List of PDFs",
+            "doc": "A list of PDF (URLs) to be merged. Merging will occur in the order of the PDFs in the list, so be sure to sort however you want them merged.",
+            "editor": "DynamicValue",
+            "is_list": true,
+            "name": "list_of_pdfs",
+            "rank": 3,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "ABZ": {
+            "caption": "Data URI",
+            "name": "dataUri",
+            "rank": 0,
+            "value": "text"
+        },
+        "ABe": {
+            "caption": "File URL",
+            "name": "file_url",
+            "rank": 1,
+            "value": "file"
+        },
+        "ABk": {
+            "caption": "logs",
+            "is_list": true,
+            "name": "logs",
+            "rank": 2,
+            "value": "text"
+        }
+    },
+    "type": "server_side",
+    "use_packages": true
+}

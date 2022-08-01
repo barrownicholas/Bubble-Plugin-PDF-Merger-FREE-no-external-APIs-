@@ -1,0 +1,7 @@
+{
+    "dependencies":{
+        "pdf-lib": "1.17.1",
+        "node-fetch": "2.6.7",
+        "valid-url": "1.0.9"
+    }
+}

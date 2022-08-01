@@ -1,0 +1,70 @@
+{
+    "category": "plugins",
+    "display": "Backend Merge Two PDFs",
+    "fields": {
+        "ABd": {
+            "caption": "Base URL",
+            "doc": "Your website base url. It is advised to use Dynamic Data > \"Website home url\" option (so that this workflow action works in both live and test mode).",
+            "editor": "DynamicValue",
+            "name": "baseurl",
+            "rank": 0,
+            "value": "text"
+        },
+        "ABf": {
+            "caption": "Do Not Upload",
+            "default_val": false,
+            "doc": "Check this box to DISABLE uploading the Merged PDF to your file manager / database. This will cause only the Data URI to generate (allowing you to download/view without having to store the file). Not recommended, unless you are experienced with handling Base64 Data URIs. ",
+            "editor": "Checkbox",
+            "name": "do_not_upload",
+            "rank": 1
+        },
+        "ABh": {
+            "caption": "Merged File Name",
+            "default_val": "merged.pdf",
+            "doc": "What to name the Merged File, including the \".pdf\" extension.",
+            "editor": "DynamicValue",
+            "name": "merged_file_name",
+            "rank": 2,
+            "value": "text"
+        },
+        "ABi": {
+            "caption": "PDF 1 URL",
+            "doc": "First PDF to Merge (this PDF will come first).",
+            "editor": "DynamicValue",
+            "name": "pdf_1_url",
+            "rank": 3,
+            "value": "text"
+        },
+        "ABj": {
+            "caption": "PDF 2 URL",
+            "doc": "Second PDF to Merge (this PDF will come last).",
+            "editor": "DynamicValue",
+            "name": "pdf_2_url",
+            "rank": 4,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "ABZ": {
+            "caption": "Data URI",
+            "name": "dataUri",
+            "rank": 0,
+            "value": "text"
+        },
+        "ABe": {
+            "caption": "File URL",
+            "name": "file_url",
+            "rank": 1,
+            "value": "file"
+        },
+        "ABk": {
+            "caption": "logs",
+            "is_list": true,
+            "name": "logs",
+            "rank": 2,
+            "value": "text"
+        }
+    },
+    "type": "server_side",
+    "use_packages": true
+}
